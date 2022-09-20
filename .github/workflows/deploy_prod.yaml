@@ -1,0 +1,21 @@
+name: Deploy to Prod
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install tooling
+        uses: ok-nick/setup-aftman@v0
+
+      - run: rojo build -o ant.rbxl
+      - run: rbxcloud experience publish -f ant.rbxl -p 10968673464 -u 3953838730 -t published -a ${{ secrets.API_KEY }}
+
+ 
