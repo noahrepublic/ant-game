@@ -13,8 +13,7 @@ jobs:
 
       - name: Install tooling
         uses: ok-nick/setup-aftman@v0
-        with:
-          trust-check: false
+
 
       - name: Format Luau
         run: stylua src plugin test bin -c
