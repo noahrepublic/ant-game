@@ -1,0 +1,31 @@
+name: Deploy to staging
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**.yml'
+      - '**.lua'
+      - '**.ts'
+  pull_request:
+    paths:
+      - '**.yml'
+      - '**.lua'
+      - '**.ts'
+
+jobs:
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install tooling
+        uses: ok-nick/setup-aftman@v0
+        with:
+          trust-check: false
+
+      - run: rojo build -o ant.rbxl
+      - run: rbxcloud experience publish -f ant.rbxl -p 10967864434 -u 3953613285 -t published -a {{ secrets.API_KEY}}
+
+ 
