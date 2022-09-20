@@ -1,16 +1,8 @@
 name: check
 on:
-  workflow_dispatch:
   push:
-    paths:
-      - '**.yml'
-      - '**.lua'
-      - '**.ts'
-  pull_request:
-    paths:
-      - '**.yml'
-      - '**.lua'
-      - '**.ts'
+    branches:
+      - main
 
 jobs:
   format_lint:
