@@ -16,17 +16,12 @@ jobs:
 
 
       - name: Format Luau
-        run: stylua src plugin test bin -c
+        run: stylua src
 
       - name: Lint Luau
         run: |
-          selene generate-roblox-std
-          selene src plugin test bin
-      - name: Install Typescript dependencies
-        run: npm install
-
-      - name: Lint and format Typescript
-        run: npm run eslint
+          selene src
+  
 
   # run-in-roblox isn't very reliable
   # unit-test:
