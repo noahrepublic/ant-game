@@ -18,6 +18,6 @@ jobs:
           trust-check: false
 
       - run: rojo build -o ant.rbxl
-      - run: rbxcloud experience publish -f ant.rbxl -p 10967864434 -u 3953613285 -t published -a {{ secrets.API_KEY}}
+      - run: rbxcloud experience publish -f ant.rbxl -p 10967864434 -u 3953613285 -t published -a {{ secrets.API_KEY }}
 
  
