@@ -2,3 +2,4 @@
 rojo = { github = "rojo-rbx/rojo", version = "7.2.1" }
 selene = { github = "Kampfkarren/selene", version = "0.20.0" }
 stylua = { github = "johnnymorganz/stylua", version = "0.14.2" }
+rbxcloud = { github = "Sleitnick/rbxcloud", version = "0.2.1" }
