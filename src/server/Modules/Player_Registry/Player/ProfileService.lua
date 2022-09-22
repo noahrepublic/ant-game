@@ -715,7 +715,7 @@ local function StandardProfileUpdateAsyncDataStore(
 	version
 ) --> loaded_data, key_info
 	local loaded_data, key_info
-	local success, error_message = pcall(function()
+	success, error_message = pcall(function()
 		local transform_function = function(latest_data)
 			local missing_profile = false
 			local data_corrupted = false
@@ -803,7 +803,7 @@ local function StandardProfileUpdateAsyncDataStore(
 					if is_get_call == true then
 						local get_data, get_key_info
 						if version ~= nil then
-							local success, error_message = pcall(function()
+							success, error_message = pcall(function()
 								get_data, get_key_info =
 									profile_store._global_data_store:GetVersionAsync(profile_key, version)
 							end)
