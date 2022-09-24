@@ -18,17 +18,18 @@ function Soap.new() -- init
 	return setmetatable({
 		_Tasks = {
 			_High = {},
-			_Default = {}
-		}
+			_Default = {},
+		},
 	}, Soap)
 end
 
 function Soap:Add(job, priority)
 	local tasks = self._Tasks
-	if priority == "High" then 
-        priority = tasks._High else 
-        priority = tasks._Default 
-    end
+	if priority == "High" then
+		priority = tasks._High
+	else
+		priority = tasks._Default
+	end
 	table.insert(priority, job)
 	return job
 end
@@ -42,7 +43,7 @@ function Soap:Scrub(r)
 	for index, step in pairs(tasks) do
 		if typeof(step) == "RBXScriptConnection" then
 			step:Disconnect()
-		elseif typeof(step) == "Tween" then
+		elseif step:IsA("Tween") then
 			step:Stop()
 		elseif type(step) == "function" then
 			step()
