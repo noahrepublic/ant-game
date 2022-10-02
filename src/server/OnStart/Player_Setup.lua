@@ -88,7 +88,7 @@ local function player_added(player: Player)
 end
 
 local function player_removing(player: Player)
-	Player_Service.GetPlayer(player):Disconnect()
+	Player_Service.RemovePlayer(player)
 end
 
 -- Connections --
