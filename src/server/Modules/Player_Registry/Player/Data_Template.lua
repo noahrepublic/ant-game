@@ -1,6 +1,6 @@
 return {
 	Ant_Data = {
-		["Part_1"] = {
+		["Ant_1"] = {
 			Level = 1,
 			Backpack_Max = 10,
 		},
