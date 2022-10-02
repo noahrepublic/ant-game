@@ -31,9 +31,11 @@ Players_Ants.Parent = game.Workspace
 -- Functions --
 
 local function player_added(player: Player)
-	local player_data = Player_Service.AddPlayer(player)._data
+	local player_profile = Player_Service.AddPlayer(player)
+	local player_data = player_profile._data
 	local player_ant_storage = Instance.new("Folder")
-	player_ant_storage.Name = player.Name .. "_Ants"
+	player_profile._soap_bar:Add(player_ant_storage)
+	player_ant_storage.Name = player.UserId
 
 	player_ant_storage.Parent = Players_Ants
 
@@ -43,12 +45,12 @@ local function player_added(player: Player)
 		for type_id, ant_data in pairs(player_data.Ant_Data) do
 			local ant_type = type_id:split("_")[1]
 
-			if not Ant_Folder[ant_type] then
+			if not Ant_Folder:FindFirstChild(ant_type) then
 				continue
 			end
 			local ant_model = Ant_Folder[ant_type]:Clone()
-			print("Cloned", ant_type)
-			ant_model.CFrame = character.PrimaryPart.CFrame
+
+			ant_model.Position = character.PrimaryPart.Position
 			ant_model.CanCollide = false
 
 			if not player.Character.PrimaryPart:FindFirstChild("Attachment") then
@@ -80,10 +82,14 @@ local function player_added(player: Player)
 			ant_model.Parent = player_ant_storage
 			ant_model:SetNetworkOwner(player)
 		end
+		Init_Remote:FireClient(player)
+		conn:Disconnect()
 	end)
 end
 
-local function player_removing(player: Player) end
+local function player_removing(player: Player)
+	Player_Service.GetPlayer(player):Disconnect()
+end
 
 -- Connections --
 

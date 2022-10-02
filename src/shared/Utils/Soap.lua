@@ -43,18 +43,18 @@ function Soap:Scrub(r)
 	for index, step in pairs(tasks) do
 		if typeof(step) == "RBXScriptConnection" then
 			step:Disconnect()
-		elseif step:IsA("Tween") then
-			step:Stop()
-		elseif type(step) == "function" then
-			step()
-		elseif type(step) == "thread" then
-			task.cancel(step)
 		elseif step.Destroy then
 			step:Destroy() -- custom modules can be used
 		elseif type(step) == "table" then
 			for i, _ in pairs(step) do
 				step[i] = nil
 			end
+		elseif step:IsA("Tween") then
+			step:Stop()
+		elseif type(step) == "function" then
+			step()
+		elseif type(step) == "thread" then
+			task.cancel(step)
 		end
 		tasks[index] = nil
 	end
