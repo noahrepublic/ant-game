@@ -55,6 +55,7 @@ local function player_added(player: Player)
 
 			if not player.Character.PrimaryPart:FindFirstChild("Attachment") then
 				local attachment = Instance.new("Attachment")
+				attachment.Orientation = Vector3.new(0, 180, 0)
 				attachment.Name = "Attachment"
 				attachment.Parent = player.Character.PrimaryPart
 			end
@@ -70,6 +71,10 @@ local function player_added(player: Player)
 			Align_Position.MaxVelocity = 100
 			Align_Position.Responsiveness = 5
 
+			local Align_Orientation = Instance.new("AlignOrientation")
+			Align_Orientation.Attachment0 = ant_model.Ant_Attachment
+			Align_Orientation.Attachment1 = player.Character.PrimaryPart.Attachment
+
 			local Vector_Force = Instance.new("VectorForce")
 			Vector_Force.ApplyAtCenterOfMass = true
 			Vector_Force.RelativeTo = Enum.ActuatorRelativeTo.World
@@ -78,6 +83,7 @@ local function player_added(player: Player)
 
 			Vector_Force.Parent = ant_model
 			Align_Position.Parent = ant_model
+			Align_Orientation.Parent = ant_model
 
 			ant_model.Parent = player_ant_storage
 			ant_model:SetNetworkOwner(player)
