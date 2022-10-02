@@ -4,9 +4,9 @@
         {
             "Name": "Ant",
             "ClassName": "RemoteEvent"
-        }
+        },
         {
-            "Name": "Replicate",
+            "Name": "Init",
             "ClassName": "RemoteEvent"
         }
     ]
