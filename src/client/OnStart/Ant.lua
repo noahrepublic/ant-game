@@ -4,6 +4,7 @@
 
 -- Services --
 
+local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -13,6 +14,7 @@ local Ant = {}
 
 local Assets = ReplicatedStorage.Assets
 local Remotes = ReplicatedStorage.Remotes
+local Shared = ReplicatedStorage.Shared
 local Utils = ReplicatedStorage.Utils
 
 local Ant_Remotes = Remotes.Ant
@@ -21,6 +23,9 @@ local Init_Remote = Ant_Remotes.Init
 
 local Promise = require(Utils.Promise)
 local Soap = require(Utils.Soap)
+
+local Metronome = require(Shared.Metronome)
+local Settings = require(Shared.Settings)
 
 local soap_bar = Soap.new()
 
@@ -38,14 +43,14 @@ local function on_respawn()
 			resolve(player.Character.HumanoidRootPart)
 		end
 	end):andThen(function(root_part)
-		if not root_part:FindFirstChild("Attachment") then
-			local attachment = Instance.new("Attachment")
-			attachment.Name = "Attachment"
-			attachment.Parent = root_part
-		end
-		for _, ant in pairs(player_ant_folder:GetDescendants()) do
-			if ant:IsA("AlignPosition") then
-				ant.Attachment1 = root_part:FindFirstChild("Attachment")
+		for _, ant in pairs(player_ant_folder:GetChildren()) do
+			if not root_part:FindFirstChild(ant.Name) then
+				local attachment = Instance.new("Attachment")
+				attachment.Name = ant.Name
+				attachment.Parent = root_part
+			end
+			if ant.AlignPosition then
+				ant.AlignPosition.Attachment1 = root_part[ant.Name]
 			end
 		end
 	end)
@@ -56,6 +61,20 @@ local function on_server_init()
 
 	player_ant_folder = game.Workspace.Ants[player.UserId]
 	player.CharacterAdded:Connect(on_respawn)
+
+	Metronome.CreateTask(10, function()
+		for _, attachment in pairs(CollectionService:GetTagged("Ant_Controller")) do
+			attachment.WorldPosition = Vector3.new(
+				player.Character.PrimaryPart.Position.X,
+				player.Character.Head.Position.Y,
+				player.Character.PrimaryPart.Position.Z
+			) + Vector3.new(
+				math.random(-Settings.Ant_Offset_Threshold, Settings.Ant_Offset_Threshold),
+				0,
+				math.random(-Settings.Ant_Offset_Threshold, Settings.Ant_Offset_Threshold)
+			)
+		end
+	end)
 end
 
 -- Connections --
